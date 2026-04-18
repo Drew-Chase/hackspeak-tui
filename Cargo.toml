@@ -1,0 +1,23 @@
+[package]
+name = "hackspeak"
+version = "0.1.0"
+edition = "2024"
+description = "A fun peer-to-peer direct communication terminal program."
+license = "MIT"
+authors = ["Drew Chase"]
+keywords = ["hackspeak", "hack", "direct", "communication", "dm"]
+categories = ["command-line-interface", "command-line-utilities"]
+repository = "https://github.com/drew-chase/hackspeak-tui"
+
+
+[dependencies]
+color-eyre = "0.6.5"
+crossterm = {version =  "0.29.0" }
+ratatui = {version = "0.30.0", features = ["crossterm"]}
+
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "z"
+strip = true
