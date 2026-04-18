@@ -1,18 +1,20 @@
 use crate::screens::ScreenWidget;
+use crossterm::event::Event;
 use ratatui::prelude::*;
 
-#[derive(Default, PartialEq, Eq)]
+#[derive(Default)]
 pub struct MessageScreen {
     username: String,
     host: String,
 }
 
 impl ScreenWidget for MessageScreen {
-    fn draw(&self, frame: &mut Frame) {
+    fn draw(&mut self, frame: &mut Frame) {
         todo!()
     }
 
-    fn handle_events(&mut self) -> std::io::Result<()> {
+    fn handle_events(&mut self, event: &Event) -> std::io::Result<()> {
+        let _ = event;
         todo!()
     }
 }

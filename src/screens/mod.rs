@@ -1,16 +1,16 @@
 use crate::screens::connect_screen::ConnectScreen;
-use ratatui::Frame;
 use crate::screens::message_screen::MessageScreen;
+use crossterm::event::Event;
+use ratatui::Frame;
 
 pub mod connect_screen;
 mod message_screen;
 
 pub trait ScreenWidget {
-    fn draw(&self, frame: &mut Frame);
-    fn handle_events(&mut self) -> std::io::Result<()>;
+    fn draw(&mut self, frame: &mut Frame);
+    fn handle_events(&mut self, event: &Event) -> std::io::Result<()>;
 }
 
-#[derive(PartialEq)]
 pub enum Screen {
     ConnectScreen(ConnectScreen),
     MessageScreen(MessageScreen),
@@ -24,20 +24,19 @@ impl Default for Screen {
 }
 
 impl ScreenWidget for Screen {
-
-    fn draw(&self, frame: &mut Frame) {
+    fn draw(&mut self, frame: &mut Frame) {
         match self {
             Screen::ConnectScreen(screen) => screen.draw(frame),
             Screen::MessageScreen(screen) => screen.draw(frame),
-            _ => {}
+            Screen::Exit => {}
         }
     }
 
-    fn handle_events(&mut self) -> std::io::Result<()> {
+    fn handle_events(&mut self, event: &Event) -> std::io::Result<()> {
         match self {
-            Screen::ConnectScreen(screen) => screen.handle_events(),
-            Screen::MessageScreen(screen) => screen.handle_events(),
-            _ => Ok(()),
+            Screen::ConnectScreen(screen) => screen.handle_events(event),
+            Screen::MessageScreen(screen) => screen.handle_events(event),
+            Screen::Exit => Ok(()),
         }
     }
 }
