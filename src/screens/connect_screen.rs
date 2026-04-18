@@ -13,6 +13,7 @@ pub struct ConnectScreen {
     username: TextInputState,
     host: TextInputState,
     login_button: ButtonState,
+    create_button: ButtonState,
 }
 
 impl Default for ConnectScreen {
@@ -21,6 +22,7 @@ impl Default for ConnectScreen {
             username: TextInputState::new_focused(),
             host: TextInputState::new(),
             login_button: ButtonState::default(),
+            create_button: ButtonState::default(),
         }
     }
 }
@@ -31,6 +33,7 @@ impl ConnectScreen {
         fb.widget(&self.username);
         fb.widget(&self.host);
         fb.widget(&self.login_button);
+        fb.widget(&self.create_button);
         fb.build()
     }
 }
@@ -55,7 +58,8 @@ impl ScreenWidget for ConnectScreen {
             .borders(Borders::ALL);
         let host_input = TextInput::default().block(host_block);
 
-        let button = Button::new("Login").block(Block::bordered());
+        let connect_button = Button::new("Connect").block(Block::bordered());
+        let create_button = Button::new("Create Server").block(Block::bordered());
 
         let center = area.centered(Constraint::Percentage(50), Constraint::Length(13));
         let vertical = Layout::vertical([
@@ -66,10 +70,15 @@ impl ScreenWidget for ConnectScreen {
         ]);
         let rows = vertical.split(center);
 
+        let button_row =
+            Layout::horizontal([Constraint::Percentage(50), Constraint::Percentage(50)]);
+        let buttons = button_row.split(rows[3]);
+
         frame.render_widget(Paragraph::new(title).bold(), rows[0]);
         frame.render_stateful_widget(username_input, rows[1], &mut self.username);
         frame.render_stateful_widget(host_input, rows[2], &mut self.host);
-        frame.render_stateful_widget(button, rows[3], &mut self.login_button);
+        frame.render_stateful_widget(connect_button, buttons[0], &mut self.login_button);
+        frame.render_stateful_widget(create_button, buttons[1], &mut self.create_button);
 
         if let Some(pos) = self
             .username
@@ -90,6 +99,13 @@ impl ScreenWidget for ConnectScreen {
         if let ButtonOutcome::Pressed = self.login_button.handle(event, Regular) {
             let username = self.username.text().to_string();
             let host = self.host.text().to_string();
+            App::login(username.clone(), host)?;
+        }
+
+        if let ButtonOutcome::Pressed = self.create_button.handle(event, Regular) {
+            let username = self.username.text().to_string();
+            let host = self.host.text().to_string();
+            App::create()?;
             App::login(username, host)?;
         }
         Ok(())

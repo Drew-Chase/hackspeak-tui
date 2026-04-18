@@ -39,4 +39,7 @@ impl App {
         let _ = (username, host);
         todo!()
     }
+    pub fn create() -> io::Result<()> {
+        todo!()
+    }
 }
