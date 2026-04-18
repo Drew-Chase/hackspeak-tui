@@ -10,7 +10,7 @@ pub trait ScreenWidget {
     fn handle_events(&mut self) -> std::io::Result<()>;
 }
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq)]
 pub enum Screen {
     ConnectScreen(ConnectScreen),
     MessageScreen(MessageScreen),

@@ -44,7 +44,7 @@ impl Widget for Input {
         let block = Block::default()
             .title(self.label)
             .title_alignment(Alignment::Left)
-            .title_bottom(self.description)
+            .title_bottom(self.description.dim())
             .border_style(if self.is_focused {
                 Style::default().fg(Color::Yellow)
             } else {
@@ -54,7 +54,7 @@ impl Widget for Input {
             .borders(Borders::ALL);
 
         Paragraph::new(if self.value.is_empty() {
-            self.placeholder.fg(Color::Gray)
+            self.placeholder.bold().dim()
         } else {
             Span::raw(self.value)
         })

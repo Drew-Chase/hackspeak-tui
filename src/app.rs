@@ -43,4 +43,8 @@ impl App {
         self.screen.handle_events()?;
         Ok(())
     }
+    pub fn login(username: String, host: String)-> io::Result<()> {
+        let mut app = App::get();
+        todo!()
+    }
 }
