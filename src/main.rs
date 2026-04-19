@@ -1,6 +1,7 @@
 mod app;
 mod screens;
 mod widgets;
+mod networking;
 
 use crate::app::App;
 use color_eyre::Result;

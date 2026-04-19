@@ -6,3 +6,6 @@ dev:
 
 clean:
     cargo clean
+
+build:
+    cargo build --release
